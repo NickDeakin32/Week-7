@@ -1,0 +1,74 @@
+<html>
+<title>Prac 7 Part 2</title>
+<script src="https://unpkg.com/vue@next"></script> 
+
+<body>
+
+<h3> My First Vue Custom Event </h3>
+
+<div id="mynewcustomevent" class="demo">
+   <p>First name: {{ firstName }}</p>
+   <p>Last name: {{ lastName }}</p>
+   <user-name
+    v-model:first-name="firstName"
+    v-model:last-name="lastName"
+  ></user-name>
+</div>
+
+
+<script type="text/x-template" id="child-component">
+  <div>
+    <!-- Elements injected with the `slot="top"`
+    attribute will end up in here. -->
+    <slot name="top">
+    </slot>
+    <!-- A slot tag without a name is a catch-all,
+    it will contain any content that doesn't have
+    a `slot=""` attribute. -->
+    <slot>
+      <p>Hello from the child!</p>
+    </slot>
+    <!-- Elements injected with the `slot="bottom"`
+    attribute will end up in here. -->
+    <slot name="bottom">
+    </slot>
+  </div>
+</script>
+
+<script>
+const UserName = {
+  props: {
+    firstName: String,
+    lastName: String
+  },
+  template: `
+    <input 
+      type="text"
+      :value="firstName"
+      @input="$emit('update:firstName', $event.target.value)">
+
+    <input
+      type="text"
+      :value="lastName"
+      @input="$emit('update:lastName', $event.target.value)">
+  `
+};
+
+const HelloVueApp = {
+  components: {
+    UserName,
+  },
+  data() {
+    return {
+      firstName: 'Nicholas ',
+      lastName: 'Carrubba',
+    };
+  },
+};
+
+Vue.createApp(HelloVueApp).mount('#mynewcustomevent')
+
+</script>
+ 
+</body>
+</html>
